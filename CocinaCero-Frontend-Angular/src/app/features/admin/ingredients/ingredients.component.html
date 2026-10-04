@@ -1,0 +1,28 @@
+<section class="page container">
+  <div class="ingredients-head"><div><span class="eyebrow">Panel ADMIN</span><h1 class="page-title">Ingredientes</h1><p class="page-subtitle">Catálogo compartido por todas las recetas y por la función “Qué cocinar”.</p></div><span class="catalog-count">{{ ingredients().length }} resultados</span></div>
+
+  <div class="ingredient-layout">
+    <aside class="panel ingredient-form">
+      <span class="eyebrow">{{ editingId ? 'Edición' : 'Nuevo registro' }}</span><h2>{{ editingId ? 'Editar ingrediente' : 'Crear ingrediente' }}</h2>
+      @if (error()) { <div class="notice notice-error">{{ error() }}</div> }
+      @if (success()) { <div class="notice notice-success">{{ success() }}</div> }
+      <form class="form-grid" (ngSubmit)="save()">
+        <div class="field"><label>Nombre</label><input class="input" name="nombre" [(ngModel)]="nombre" maxlength="80" required placeholder="Ej. Tomate"></div>
+        <div class="field"><label>Tipo</label><select class="select" name="tipo" [(ngModel)]="tipo">@for (type of options()?.tiposIngrediente ?? []; track type) { <option [value]="type">{{ type }}</option> }</select></div>
+        <div class="field"><label>Descripción</label><textarea class="textarea" name="descripcion" [(ngModel)]="descripcion" maxlength="255" placeholder="Descripción opcional"></textarea></div>
+        <button class="btn btn-primary btn-block" type="submit" [disabled]="saving()">{{ saving() ? 'Guardando…' : editingId ? 'Guardar cambios' : 'Crear ingrediente' }}</button>
+        @if (editingId) { <button class="btn btn-ghost btn-block" type="button" (click)="cancel()">Cancelar</button> }
+      </form>
+    </aside>
+
+    <div>
+      <form class="toolbar panel filter-panel" (ngSubmit)="search()"><div class="field search"><label>Buscar</label><input class="input" name="texto" [(ngModel)]="texto" placeholder="Nombre del ingrediente"></div><div class="field"><label>Tipo</label><select class="select" name="tipoFiltro" [(ngModel)]="tipoFiltro"><option value="">Todos</option>@for (type of options()?.tiposIngrediente ?? []; track type) { <option [value]="type">{{ type }}</option> }</select></div><button class="btn btn-primary" type="submit">Buscar</button><button class="btn btn-ghost" type="button" (click)="clearFilters()">Limpiar</button></form>
+
+      @if (loading()) { <div class="loading-block"><div class="spinner"></div></div> }
+      @else if (ingredients().length === 0) { <div class="empty-state"><strong>No hay ingredientes.</strong><span>Prueba otro filtro o crea uno nuevo.</span></div> }
+      @else {
+        <div class="ingredient-grid">@for (item of ingredients(); track item.id) { <article class="ingredient-card card"><div class="ingredient-symbol">{{ item.nombre.charAt(0).toUpperCase() }}</div><div class="ingredient-copy"><div><span class="badge badge-green">{{ item.tipo }}</span><small>#{{ item.id }}</small></div><h3>{{ item.nombre }}</h3><p>{{ item.descripcion || 'Sin descripción.' }}</p></div><div class="actions"><button class="btn btn-soft btn-small" type="button" (click)="edit(item)">Editar</button><button class="btn btn-danger btn-small" type="button" (click)="remove(item)">Eliminar</button></div></article> }</div>
+      }
+    </div>
+  </div>
+</section>

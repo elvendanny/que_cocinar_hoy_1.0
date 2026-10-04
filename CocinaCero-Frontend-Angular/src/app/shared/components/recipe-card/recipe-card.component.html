@@ -1,0 +1,19 @@
+<article class="recipe-card card">
+  <a class="media" [routerLink]="['/recetas', recipe.id]" [attr.aria-label]="'Ver ' + recipe.nombre">
+    <app-protected-image [path]="recipe.imagenPrincipal.url" [alt]="recipe.nombre"></app-protected-image>
+    <span class="difficulty">{{ recipe.dificultad }}</span>
+    @if (recipe.porcentaje !== undefined) { <span class="match">{{ recipe.porcentaje }}% coincide</span> }
+  </a>
+  <div class="body">
+    <div class="meta"><span>{{ recipe.categoria }}</span><span>·</span><span>{{ recipe.tiempoPreparacion }} min</span></div>
+    <h3><a [routerLink]="['/recetas', recipe.id]">{{ recipe.nombre }}</a></h3>
+    <p>{{ recipe.descripcion }}</p>
+    <div class="footer">
+      <span>🍽 {{ recipe.porciones }} porciones</span>
+      <div class="actions">
+        <a class="link" [routerLink]="['/recetas', recipe.id]">Ver receta</a>
+        @if (editable) { <a class="link edit" [routerLink]="['/recetas', recipe.id, 'editar']">Editar</a> }
+      </div>
+    </div>
+  </div>
+</article>

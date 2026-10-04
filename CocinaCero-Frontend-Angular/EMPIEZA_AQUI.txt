@@ -1,0 +1,53 @@
+COCINA CERO - FRONTEND ANGULAR
+==============================
+
+Este proyecto consume el backend CocinaCero-Backend-Angular que ya comprobaste.
+NO reemplaza ni modifica tus bases MariaDB.
+
+REQUISITOS
+----------
+- Node.js 24 (tu Node 24.21.0 sirve)
+- npm
+- MariaDB encendido
+- API Auth en http://localhost:8081
+- API Cocina en http://localhost:8082
+
+PRIMERA VEZ
+-----------
+1. Inicia MariaDB.
+2. En tu carpeta del backend, ejecuta INICIAR_AUTH.cmd.
+3. En otra ventana, ejecuta INICIAR_COCINA.cmd.
+4. Comprueba si quieres:
+   http://localhost:8081/health
+   http://localhost:8082/health
+5. En ESTA carpeta, ejecuta INSTALAR_Y_COMPILAR.cmd.
+6. Debe terminar indicando que el build de Angular fue correcto.
+
+PARA USAR LA WEB
+----------------
+1. Deja abiertas las dos API del backend.
+2. Ejecuta INICIAR_FRONTEND.cmd.
+3. Se abrirá http://127.0.0.1:4200
+4. La pantalla de inicio muestra el estado de Auth 8081 y Cocina 8082.
+
+RECORRIDO RECOMENDADO PARA DEMOSTRAR
+------------------------------------
+A) Inicia sesión con el ADMIN que ya tenías en el deber 3.
+B) Abre Usuarios para revisar cuentas pendientes.
+C) También puedes abrir otra ventana privada y crear un usuario nuevo:
+   Registro -> código de correo -> verificación.
+D) Desde ADMIN, aprueba la cuenta verificada.
+E) Inicia sesión con el nuevo USER.
+F) Prueba Recetas -> Nueva receta -> ingredientes -> foto -> guardar.
+G) Abre el detalle, edita la receta y comprueba los archivos.
+H) Prueba Qué cocinar seleccionando varios ingredientes.
+I) Como ADMIN, prueba Categorías e Ingredientes.
+J) Cierra sesión y comprueba que las rutas protegidas vuelven a pedir login.
+
+IMPORTANTE
+----------
+- El frontend usa exactamente los puertos del backend: 8081 y 8082.
+- Angular corre en 127.0.0.1:4200, origen admitido por el CORS del backend.
+- No pongas claves JWT, MariaDB, Gmail ni X-Internal-Key en Angular.
+- Si cambias los puertos, edita src/environments/environment.ts.
+- La investigación futura de UX/usabilidad/accesibilidad NO está incluida en esta entrega.

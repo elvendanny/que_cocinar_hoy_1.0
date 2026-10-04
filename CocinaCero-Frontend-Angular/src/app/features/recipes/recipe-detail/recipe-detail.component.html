@@ -1,0 +1,71 @@
+<section class="page container">
+  @if (loading()) {
+    <div class="loading-block"><div class="spinner"></div></div>
+  } @else if (error() && !recipe()) {
+    <div class="notice notice-error">{{ error() }}</div>
+    <a class="btn btn-ghost" routerLink="/recetas" style="margin-top:16px">← Volver a recetas</a>
+  } @else if (recipe(); as r) {
+    <a class="back-link" routerLink="/recetas">← Volver al recetario</a>
+    <div class="detail-hero">
+      <div class="detail-image card"><app-protected-image [path]="r.imagenPrincipal.url" [alt]="r.nombre"></app-protected-image></div>
+      <div class="detail-copy">
+        <div class="badges"><span class="badge badge-orange">{{ r.categoria }}</span><span class="badge badge-green">{{ r.dificultad }}</span></div>
+        <h1>{{ r.nombre }}</h1>
+        <p class="description">{{ r.descripcion }}</p>
+        <div class="stats">
+          <div><b>{{ r.tiempoPreparacion }}</b><span>minutos</span></div>
+          <div><b>{{ r.porciones }}</b><span>porciones</span></div>
+          <div><b>{{ r.ingredientes.length }}</b><span>ingredientes</span></div>
+        </div>
+        <div class="meta-line">Creada {{ r.creadoEn | date:'mediumDate' }} · Usuario #{{ r.usuarioId }}</div>
+        @if (canEdit()) {
+          <div class="actions detail-actions"><a class="btn btn-primary" [routerLink]="['/recetas', r.id, 'editar']">Editar receta</a><button class="btn btn-danger" type="button" (click)="deleteRecipe()" [disabled]="deleting()">{{ deleting() ? 'Eliminando…' : 'Eliminar' }}</button></div>
+        }
+      </div>
+    </div>
+
+    @if (error()) { <div class="notice notice-error" style="margin-top:20px">{{ error() }}</div> }
+
+    <div class="content-grid">
+      <section class="panel ingredients-panel">
+        <span class="eyebrow">Para {{ r.porciones }} porciones</span>
+        <h2>Ingredientes</h2>
+        <div class="ingredient-list">
+          @for (item of r.ingredientes; track item.ingredienteId) {
+            <div class="ingredient-row">
+              <span class="ingredient-dot"></span>
+              <div><b>{{ item.nombre }}</b>@if (item.opcional) { <small>Opcional</small> }</div>
+              <strong>{{ item.cantidad | number:'1.0-2' }} <em>{{ item.unidadMedida.replaceAll('_', ' ') }}</em></strong>
+            </div>
+          }
+        </div>
+      </section>
+
+      <section class="panel instructions-panel">
+        <span class="eyebrow">Preparación</span>
+        <h2>Paso a paso</h2>
+        <div class="instructions">{{ r.instrucciones }}</div>
+      </section>
+    </div>
+
+    @if (imageFiles().length > 0) {
+      <section class="gallery-section">
+        <div class="section-row"><div><span class="eyebrow">Galería</span><h2>Fotos de la receta</h2></div><span class="muted">{{ imageFiles().length }} imagen(es)</span></div>
+        <div class="gallery-grid">
+          @for (file of imageFiles(); track file.id) { <div class="gallery-item card"><app-protected-image [path]="'/api/archivos/' + file.id + '/imagen'" [alt]="file.nombreOriginal"></app-protected-image><span>{{ file.nombreOriginal }}</span></div> }
+        </div>
+      </section>
+    }
+
+    @if (r.archivos.length > 0) {
+      <section class="attachments panel">
+        <div><span class="eyebrow">Archivos</span><h2>Adjuntos</h2></div>
+        <div class="attachment-list">
+          @for (file of r.archivos; track file.id) {
+            <div class="attachment"><div class="file-icon">{{ file.tipo === 'application/pdf' ? 'PDF' : 'IMG' }}</div><div><b>{{ file.nombreOriginal }}</b><small>{{ file.tipo }} · {{ (file.bytes / 1024) | number:'1.0-0' }} KB</small></div><button class="btn btn-ghost btn-small" type="button" (click)="download(file)" [disabled]="downloading() === file.id">{{ downloading() === file.id ? 'Descargando…' : 'Descargar' }}</button></div>
+          }
+        </div>
+      </section>
+    }
+  }
+</section>

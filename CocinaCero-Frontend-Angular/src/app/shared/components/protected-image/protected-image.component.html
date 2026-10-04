@@ -1,0 +1,9 @@
+<div class="image-shell" [class.is-loading]="loading()">
+  @if (src()) {
+    <img [src]="src()!" [alt]="alt" loading="lazy">
+  } @else {
+    <div class="placeholder" aria-hidden="true">
+      <span>{{ failed() ? '🍽️' : '🥕' }}</span>
+    </div>
+  }
+</div>

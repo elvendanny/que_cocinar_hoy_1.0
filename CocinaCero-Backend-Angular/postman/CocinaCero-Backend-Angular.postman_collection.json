@@ -1,0 +1,3808 @@
+{
+  "info": {
+    "name": "Cocina Cero - Backend Java para Angular",
+    "description": "Backend Java/Spring Boot del deber 3 adaptado para Angular. Primero ejecuta 00A con tu ADMIN actual. Conserva el recorrido original para probar correo real, aprobación y roles. No ejecutes toda la colección automáticamente: correo y archivos requieren pasos manuales.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "authUrl",
+      "value": "http://localhost:8081",
+      "type": "string"
+    },
+    {
+      "key": "cocinaUrl",
+      "value": "http://localhost:8082",
+      "type": "string"
+    },
+    {
+      "key": "adminEmail",
+      "value": "admin@cocinacero.local",
+      "type": "string"
+    },
+    {
+      "key": "adminPassword",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "emailReal",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "passwordReal",
+      "value": "PracticaCocina2026!",
+      "type": "string"
+    },
+    {
+      "key": "codigoReal",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "userToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "usuarioId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "categoriaId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "ingredienteId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "recetaId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "archivoId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "otroEmail",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "otroPassword",
+      "value": "OtroUsuario2026!",
+      "type": "string"
+    },
+    {
+      "key": "otroCodigo",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "otroId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "otroToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "recetaAngularId",
+      "value": ""
+    },
+    {
+      "key": "archivoAngularId",
+      "value": ""
+    },
+    {
+      "key": "categoriaAngularId",
+      "value": ""
+    },
+    {
+      "key": "ingredienteAngularId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "00 - Servicios y acceso sin token",
+      "item": [
+        {
+          "name": "01 - Estado Auth",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{authUrl}}/health",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 - Estado Cocina",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/health",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"cocinaUrl\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 - Recetas sin token - debe rechazar",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/recetas",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"cocinaUrl\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 401\", function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "00A - Comprobar backend Angular",
+      "description": "Recorrido rápido, no envía correos. Usa tu ADMIN actual. Ejecución MANUAL en orden, con selección de archivo en paso 09. Al finalizar elimina únicamente la receta y el archivo temporales creados aquí.",
+      "item": [
+        {
+          "name": "01 Login ADMIN actual",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/auth/login",
+            "description": "Escribe adminEmail y adminPassword actuales en VARIABLES DE ESTA COLECCIÓN. Selecciona Sin entorno.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "if (pm.response.code === 200) { pm.collectionVariables.set(\"adminToken\", pm.response.json().token); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 CORS permite Angular",
+          "request": {
+            "method": "OPTIONS",
+            "header": [
+              {
+                "key": "Origin",
+                "value": "http://localhost:4200"
+              },
+              {
+                "key": "Access-Control-Request-Method",
+                "value": "GET"
+              },
+              {
+                "key": "Access-Control-Request-Headers",
+                "value": "authorization"
+              }
+            ],
+            "url": "{{cocinaUrl}}/api/recetas",
+            "description": "Una respuesta sin cuerpo es normal. Esto comprueba el preflight del navegador, no concede acceso sin JWT.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "if (pm.response.code === 200) { pm.test(\"Origen permitido\", () => pm.expect(pm.response.headers.get(\"Access-Control-Allow-Origin\")).to.eql(\"http://localhost:4200\")); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 Opciones para formularios",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/opciones",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 Categorias guardar ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/categorias",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "if (pm.response.code === 200) { const datos=pm.response.json(); pm.test(\"Hay categorías\",()=>pm.expect(datos.length).to.be.above(0)); if(datos.length) pm.collectionVariables.set(\"categoriaAngularId\",datos[0].id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 Ingredientes guardar ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/ingredientes",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "if (pm.response.code === 200) { const datos=pm.response.json(); pm.test(\"Hay ingredientes\",()=>pm.expect(datos.length).to.be.above(0)); if(datos.length) pm.collectionVariables.set(\"ingredienteAngularId\",datos[0].id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 Recetario paginado con imagenes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/recetas/pagina?page=1&limit=12",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "if (pm.response.code === 200) { const datos=pm.response.json(); pm.test(\"Página e imagen\",()=>{pm.expect(datos.datos).to.be.an(\"array\"); pm.expect(datos.total).to.be.above(0); pm.expect(datos.datos[0]).to.have.property(\"imagenPrincipal\");}); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "07 Crear receta temporal",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{cocinaUrl}}/api/recetas",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Receta temporal Angular\",\n  \"descripcion\": \"Receta para comprobar el backend antes del frontend\",\n  \"instrucciones\": \"1. Preparar el ingrediente seleccionado.\\n2. Cocinar según corresponda hasta que esté listo.\\n3. Servir.\",\n  \"tiempoPreparacion\": 15,\n  \"porciones\": 2,\n  \"dificultad\": \"FACIL\",\n  \"categoriaId\": {{categoriaAngularId}},\n  \"ingredientes\": [\n    {\n      \"ingredienteId\": {{ingredienteAngularId}},\n      \"cantidad\": 1,\n      \"unidadMedida\": \"UNIDADES\",\n      \"opcional\": false\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"recetaAngularId\",pm.response.json().id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "08 Consultar mis recetas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/recetas/pagina?mias=true&texto=temporal",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "09 Subir imagen - elegir archivo local",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/recetas/{{recetaAngularId}}/archivos",
+            "description": "Body > form-data > archivo: selecciona ejemplos/imagen-prueba.png. No uses texto ni agregues Content-Type manual. Ejecutar individualmente.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "archivo",
+                  "type": "file",
+                  "src": null
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"archivoAngularId\",pm.response.json().id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "10 Seleccionar portada",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{cocinaUrl}}/api/recetas/{{recetaAngularId}}/portada",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"archivoId\": {{archivoAngularId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "11 Ver imagen protegida",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/archivos/{{archivoAngularId}}/imagen",
+            "description": "La respuesta es imagen PNG. Postman permite verla en Preview o Visualización; no esperes JSON.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "12 Editar receta completa",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{cocinaUrl}}/api/recetas/{{recetaAngularId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Receta temporal Angular\",\n  \"descripcion\": \"Receta para comprobar el backend antes del frontend\",\n  \"instrucciones\": \"1. Preparar el ingrediente seleccionado.\\n2. Cocinar según corresponda hasta que esté listo.\\n3. Servir.\",\n  \"tiempoPreparacion\": 15,\n  \"porciones\": 3,\n  \"dificultad\": \"FACIL\",\n  \"categoriaId\": {{categoriaAngularId}},\n  \"ingredientes\": [\n    {\n      \"ingredienteId\": {{ingredienteAngularId}},\n      \"cantidad\": 1,\n      \"unidadMedida\": \"UNIDADES\",\n      \"opcional\": false\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "13 Confirmar detalle actualizado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/recetas/{{recetaAngularId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "if (pm.response.code === 200) { pm.test(\"Porciones actualizadas\",()=>pm.expect(pm.response.json().porciones).to.eql(3)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "14 Eliminar imagen temporal",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/archivos/{{archivoAngularId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "15 Eliminar receta temporal",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/recetas/{{recetaAngularId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "16 Confirmar receta eliminada",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/recetas/{{recetaAngularId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "17 Sin token no hay acceso",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/recetas/pagina",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "18 Usuarios pendientes verificados ADMIN",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{authUrl}}/api/usuarios?estado=PENDIENTE&emailVerificado=true&page=1&limit=20",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "19 Ilustracion demo sin servicios externos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/imagenes-demo/ensalada.png",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "01 - Registro y correo REAL - PASO A PASO",
+      "item": [
+        {
+          "name": "01 - Login antes del registro",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/auth/login",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailReal}}\",\n  \"password\": \"{{passwordReal}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\", \"emailReal\", \"passwordReal\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 401\", function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 - Registrar y enviar correo REAL",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/auth/registro",
+            "description": "Envía correo real al valor de emailReal. Requiere un correo no registrado.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Usuario práctica Deber 3\",\n  \"email\": \"{{emailReal}}\",\n  \"password\": \"{{passwordReal}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\", \"emailReal\", \"passwordReal\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) {",
+                  "  const r = pm.response.json();",
+                  "  pm.collectionVariables.set(\"usuarioId\", r.usuario.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 - Duplicado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/auth/registro",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Usuario práctica Deber 3\",\n  \"email\": \"{{emailReal}}\",\n  \"password\": \"{{passwordReal}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\", \"emailReal\", \"passwordReal\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 - Login sin verificar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/auth/login",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailReal}}\",\n  \"password\": \"{{passwordReal}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\", \"emailReal\", \"passwordReal\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403\", function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 - Código incorrecto",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/auth/verificar",
+            "description": "Si el código real fuese 000000, cambia este cuerpo por 111111. Un solo intento.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailReal}}\",\n  \"codigo\": \"000000\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\", \"emailReal\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 - Reenviar código REAL - esperar 60 segundos",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/auth/reenviar",
+            "description": "Espera 60 segundos tras el envío anterior. Copia el NUEVO código a codigoReal.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailReal}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\", \"emailReal\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "07 - Verificar correo - sigue PENDIENTE",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/auth/verificar",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailReal}}\",\n  \"codigo\": \"{{codigoReal}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\", \"codigoReal\", \"emailReal\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "08 - Login verificado pero SIN aprobación",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/auth/login",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailReal}}\",\n  \"password\": \"{{passwordReal}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\", \"emailReal\", \"passwordReal\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403\", function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 - Revisión y aprobación ADMIN",
+      "item": [
+        {
+          "name": "01 - Login ADMIN",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/auth/login",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminEmail\", \"adminPassword\", \"authUrl\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "if (pm.response.code === 200) {",
+                  "  const r = pm.response.json();",
+                  "  pm.collectionVariables.set(\"adminToken\", r.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 - Listar usuarios - revisar datos y emailVerificado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{authUrl}}/api/usuarios",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"authUrl\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 - Consultar usuario pendiente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{authUrl}}/api/usuarios/{{usuarioId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"authUrl\", \"usuarioId\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 - Aprobar cuenta",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/usuarios/{{usuarioId}}/estado",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"APROBADA\",\n  \"motivo\": \"Correo verificado y datos revisados para la práctica\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"authUrl\", \"usuarioId\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 - Historial de decisiones",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{authUrl}}/api/usuarios/{{usuarioId}}/revisiones",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"authUrl\", \"usuarioId\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 - Consultar roles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{authUrl}}/api/roles",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"authUrl\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03 - Acceso del USER aprobado",
+      "item": [
+        {
+          "name": "01 - Login USER - guardar JWT",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/auth/login",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailReal}}\",\n  \"password\": \"{{passwordReal}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\", \"emailReal\", \"passwordReal\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "if (pm.response.code === 200) {",
+                  "  const r = pm.response.json();",
+                  "  pm.collectionVariables.set(\"userToken\", r.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 - Mi perfil",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{authUrl}}/api/auth/me",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 - Actualizar mi nombre",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/auth/me",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Usuario práctica actualizado\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 - Consultar recetas con JWT",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/recetas",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"cocinaUrl\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 - USER no administra usuarios",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{authUrl}}/api/usuarios",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403\", function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 - USER no crea categorías",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{cocinaUrl}}/api/categorias",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Prueba permisos\",\n  \"descripcion\": \"No debe crearse\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"cocinaUrl\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403\", function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "04 - Catálogos CRUD ADMIN",
+      "item": [
+        {
+          "name": "01 - Listar categorías",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/categorias",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"cocinaUrl\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 - Crear categoría",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{cocinaUrl}}/api/categorias",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Práctica Deber 3\",\n  \"descripcion\": \"Categoría de la presentación\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"cocinaUrl\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) {",
+                  "  const r = pm.response.json();",
+                  "  pm.collectionVariables.set(\"categoriaId\", r.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 - Consultar categoría creada",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/categorias/{{categoriaId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"categoriaId\", \"cocinaUrl\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 - Editar categoría",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{cocinaUrl}}/api/categorias/{{categoriaId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Práctica Deber 3 actualizada\",\n  \"descripcion\": \"Categoría editada\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"categoriaId\", \"cocinaUrl\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 - Listar ingredientes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/ingredientes",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"cocinaUrl\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 - Crear ingrediente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{cocinaUrl}}/api/ingredientes",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Tomate práctica D3\",\n  \"descripcion\": \"Ingrediente de prueba\",\n  \"tipo\": \"VEGETAL\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"cocinaUrl\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) {",
+                  "  const r = pm.response.json();",
+                  "  pm.collectionVariables.set(\"ingredienteId\", r.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "07 - Consultar ingrediente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/ingredientes/{{ingredienteId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"cocinaUrl\", \"ingredienteId\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "08 - Editar ingrediente",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{cocinaUrl}}/api/ingredientes/{{ingredienteId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Tomate práctica D3 actualizado\",\n  \"descripcion\": \"Ingrediente editado\",\n  \"tipo\": \"VEGETAL\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"cocinaUrl\", \"ingredienteId\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "05 - Recetas CRUD y archivos USER",
+      "item": [
+        {
+          "name": "01 - Crear receta propia",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{cocinaUrl}}/api/recetas",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Receta práctica D3\",\n  \"descripcion\": \"Receta para demostrar el CRUD\",\n  \"instrucciones\": \"Lavar el tomate, cortarlo, cocinarlo y servir caliente.\",\n  \"tiempoPreparacion\": 15,\n  \"porciones\": 2,\n  \"dificultad\": \"FACIL\",\n  \"categoriaId\": {{categoriaId}},\n  \"ingredientes\": [\n    {\n      \"ingredienteId\": {{ingredienteId}},\n      \"cantidad\": 2,\n      \"unidadMedida\": \"UNIDADES\",\n      \"opcional\": false\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"categoriaId\", \"cocinaUrl\", \"ingredienteId\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) {",
+                  "  const r = pm.response.json();",
+                  "  pm.collectionVariables.set(\"recetaId\", r.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 - Consultar receta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/recetas/{{recetaId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"cocinaUrl\", \"recetaId\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 - Editar receta propia",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{cocinaUrl}}/api/recetas/{{recetaId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Receta práctica D3 editada\",\n  \"descripcion\": \"Receta para demostrar el CRUD\",\n  \"instrucciones\": \"Lavar el tomate, cortarlo, cocinarlo y servir caliente.\",\n  \"tiempoPreparacion\": 20,\n  \"porciones\": 3,\n  \"dificultad\": \"FACIL\",\n  \"categoriaId\": {{categoriaId}},\n  \"ingredientes\": [\n    {\n      \"ingredienteId\": {{ingredienteId}},\n      \"cantidad\": 2,\n      \"unidadMedida\": \"UNIDADES\",\n      \"opcional\": false\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"categoriaId\", \"cocinaUrl\", \"ingredienteId\", \"recetaId\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 - Recomendaciones por ingrediente disponible",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/recomendaciones?ingredientes={{ingredienteId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"cocinaUrl\", \"ingredienteId\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 - No eliminar ingrediente utilizado",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/ingredientes/{{ingredienteId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"cocinaUrl\", \"ingredienteId\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 - No eliminar categoría utilizada",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/categorias/{{categoriaId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"categoriaId\", \"cocinaUrl\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "07 - Subir archivo - SELECCIONAR ARCHIVO",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/recetas/{{recetaId}}/archivos",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "archivo",
+                  "type": "file",
+                  "src": null,
+                  "description": "Seleccionar ejemplos/imagen-prueba.png o un PDF local de hasta 5 MB."
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"cocinaUrl\", \"recetaId\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) {",
+                  "  const r = pm.response.json();",
+                  "  pm.collectionVariables.set(\"archivoId\", r.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "08 - Descargar archivo",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/archivos/{{archivoId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"archivoId\", \"cocinaUrl\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "09 - Receta incompleta - validación",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{cocinaUrl}}/api/recetas",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Incompleta\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"cocinaUrl\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "06 - Segundo USER y propiedad - OPCIONAL",
+      "item": [
+        {
+          "name": "01 - Registrar otro correo REAL",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/auth/registro",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Segundo usuario\",\n  \"email\": \"{{otroEmail}}\",\n  \"password\": \"{{otroPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\", \"otroEmail\", \"otroPassword\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) {",
+                  "  const r = pm.response.json();",
+                  "  pm.collectionVariables.set(\"otroId\", r.usuario.id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 - Verificar segundo correo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/auth/verificar",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{otroEmail}}\",\n  \"codigo\": \"{{otroCodigo}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\", \"otroCodigo\", \"otroEmail\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 - ADMIN aprueba segundo usuario",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/usuarios/{{otroId}}/estado",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"APROBADA\",\n  \"motivo\": \"Segundo usuario revisado\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"authUrl\", \"otroId\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 - Login segundo USER",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/auth/login",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{otroEmail}}\",\n  \"password\": \"{{otroPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\", \"otroEmail\", \"otroPassword\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "if (pm.response.code === 200) {",
+                  "  const r = pm.response.json();",
+                  "  pm.collectionVariables.set(\"otroToken\", r.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 - Segundo USER no edita receta ajena",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{cocinaUrl}}/api/recetas/{{recetaId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{otroToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Receta práctica D3 editada\",\n  \"descripcion\": \"Receta para demostrar el CRUD\",\n  \"instrucciones\": \"Lavar el tomate, cortarlo, cocinarlo y servir caliente.\",\n  \"tiempoPreparacion\": 20,\n  \"porciones\": 3,\n  \"dificultad\": \"FACIL\",\n  \"categoriaId\": {{categoriaId}},\n  \"ingredientes\": [\n    {\n      \"ingredienteId\": {{ingredienteId}},\n      \"cantidad\": 2,\n      \"unidadMedida\": \"UNIDADES\",\n      \"opcional\": false\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"categoriaId\", \"cocinaUrl\", \"ingredienteId\", \"otroToken\", \"recetaId\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403\", function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 - Segundo USER no elimina archivo ajeno",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/archivos/{{archivoId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{otroToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"archivoId\", \"cocinaUrl\", \"otroToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403\", function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "07 - Bloqueo rechazo y reactivación",
+      "item": [
+        {
+          "name": "01 - Bloquear USER",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/usuarios/{{usuarioId}}/estado",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"BLOQUEADA\",\n  \"motivo\": \"Demostración de bloqueo\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"authUrl\", \"usuarioId\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 - Token anterior no accede a Cocina",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/recetas",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"cocinaUrl\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 401\", function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 - Bloqueado no inicia sesión",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/auth/login",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailReal}}\",\n  \"password\": \"{{passwordReal}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\", \"emailReal\", \"passwordReal\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403\", function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 - Rechazar cuenta",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/usuarios/{{usuarioId}}/estado",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"RECHAZADA\",\n  \"motivo\": \"Demostración de rechazo\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"authUrl\", \"usuarioId\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 - Rechazado no inicia sesión",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/auth/login",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailReal}}\",\n  \"password\": \"{{passwordReal}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\", \"emailReal\", \"passwordReal\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403\", function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 - Aprobar nuevamente",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/usuarios/{{usuarioId}}/estado",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"APROBADA\",\n  \"motivo\": \"Cuenta revisada nuevamente\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"authUrl\", \"usuarioId\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "07 - Token viejo sigue revocado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/recetas",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"cocinaUrl\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 401\", function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "08 - Nuevo login USER",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/auth/login",
+            "description": "",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailReal}}\",\n  \"password\": \"{{passwordReal}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\", \"emailReal\", \"passwordReal\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "if (pm.response.code === 200) {",
+                  "  const r = pm.response.json();",
+                  "  pm.collectionVariables.set(\"userToken\", r.token);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "08 - Limpieza y cierre de sesión",
+      "item": [
+        {
+          "name": "01 - Eliminar archivo propio",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/archivos/{{archivoId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"archivoId\", \"cocinaUrl\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 204\", function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 - Eliminar receta propia",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/recetas/{{recetaId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"cocinaUrl\", \"recetaId\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 204\", function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 - Receta eliminada devuelve 404",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/recetas/{{recetaId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"cocinaUrl\", \"recetaId\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 - Eliminar ingrediente libre",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/ingredientes/{{ingredienteId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"cocinaUrl\", \"ingredienteId\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 204\", function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 - Eliminar categoría libre",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/categorias/{{categoriaId}}",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"categoriaId\", \"cocinaUrl\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 204\", function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 - Cerrar todas las sesiones del USER",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{authUrl}}/api/auth/logout",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"authUrl\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "07 - Token cerrado ya no accede",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{cocinaUrl}}/api/recetas",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{userToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"cocinaUrl\", \"userToken\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 401\", function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "09 - Administración adicional - MANUAL",
+      "item": [
+        {
+          "name": "01 - Volver a PENDIENTE",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/usuarios/{{usuarioId}}/estado",
+            "description": "Revoca tokens y bloquea el login hasta nueva aprobación.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"PENDIENTE\",\n  \"motivo\": \"Revisión adicional requerida\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"authUrl\", \"usuarioId\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 - Cambiar rol a ADMIN",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/usuarios/{{usuarioId}}/rol",
+            "description": "Revoca tokens. No aprueba la cuenta ni verifica el correo por sí solo.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rol\": \"ADMIN\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"authUrl\", \"usuarioId\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 - Restaurar rol USER",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{authUrl}}/api/usuarios/{{usuarioId}}/rol",
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rol\": \"USER\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"authUrl\", \"usuarioId\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 - Eliminar usuario para repetir práctica",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{authUrl}}/api/usuarios/{{usuarioId}}",
+            "description": "Primero elimina sus archivos y recetas. No elimina Gmail ni revoca la autorización de envío. No se borran automáticamente los datos de Cocina.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const necesarias = [\"adminToken\", \"authUrl\", \"usuarioId\"];",
+                  "for (const k of necesarias) { if (!pm.variables.get(k)) { throw new Error(\"Completa la variable de colección: \" + k); } }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 204\", function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

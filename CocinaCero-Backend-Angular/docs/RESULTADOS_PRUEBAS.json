@@ -1,0 +1,60 @@
+{
+  "fecha": "2026-10-04",
+  "compilacion": "Maven clean package: BUILD SUCCESS, exit 0",
+  "java": "OpenJDK 17.0.20",
+  "springBoot": "3.5.11",
+  "maven": "3.9.9",
+  "basePruebas": "H2 2.3.232 en modo MariaDB; DDL adicional con dialecto MariaDB",
+  "correo": "Sustituto de prueba; no se enviaron mensajes",
+  "pruebas": 12,
+  "suites": [
+    {
+      "name": "com.cocinacero.auth.SeguridadIntegrationTest",
+      "tests": "5",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "21.687"
+    },
+    {
+      "name": "com.cocinacero.cocina.CocinaIntegrationTest",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "11.612"
+    },
+    {
+      "name": "com.cocinacero.cocina.DemoWebIntegrationTest",
+      "tests": "1",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "0.33"
+    },
+    {
+      "name": "com.cocinacero.cocina.EsquemaMariaDbTest",
+      "tests": "1",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "0.418"
+    },
+    {
+      "name": "com.cocinacero.cocina.MicroserviciosIntegrationTest",
+      "tests": "1",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "6.615"
+    }
+  ],
+  "importador": "Ejecutado con carpetas con espacios, adjuntos y credenciales ficticias: copia correcta, origen intacto y segunda importación rechazada sin sobrescribir",
+  "solicitudesPostman": 84,
+  "pendienteLocal": [
+    "Conexión de esta actualización a MariaDB del usuario",
+    "Entrega real de Gmail con la autorización local actual",
+    "Ejecución manual de Postman y selección de imagen",
+    "Interfaz Angular: siguiente fase, no incluida"
+  ]
+}

@@ -1,0 +1,33 @@
+<section class="page container">
+  <div class="recommend-head">
+    <div><span class="eyebrow">Aprovecha lo que tienes</span><h1 class="page-title">¿Qué puedo cocinar?</h1><p class="page-subtitle">Marca tus ingredientes disponibles. El backend comparará las recetas y mostrará primero las que tengan mayor coincidencia de ingredientes obligatorios.</p></div>
+    <div class="selection-count"><b>{{ selected().size }}</b><span>seleccionados</span></div>
+  </div>
+
+  <div class="recommend-layout">
+    <aside class="panel pantry">
+      <div class="pantry-head"><h2>Mi despensa</h2><button class="link-button" type="button" (click)="clear()">Limpiar</button></div>
+      <input class="input" [(ngModel)]="query" placeholder="Buscar ingrediente…" aria-label="Buscar ingrediente">
+      @if (loading()) { <div class="loading-block small"><div class="spinner"></div></div> }
+      @else {
+        <div class="ingredient-options">
+          @for (item of filteredIngredients(); track item.id) {
+            <button type="button" class="ingredient-option" [class.selected]="isSelected(item.id)" (click)="toggle(item.id)"><span class="check">{{ isSelected(item.id) ? '✓' : '+' }}</span><span><b>{{ item.nombre }}</b><small>{{ item.tipo }}</small></span></button>
+          }
+        </div>
+      }
+      <button class="btn btn-primary btn-block" type="button" (click)="recommend()" [disabled]="searching() || selected().size === 0">{{ searching() ? 'Calculando…' : 'Ver recomendaciones' }}</button>
+    </aside>
+
+    <div class="recommend-results">
+      @if (error()) { <div class="notice notice-error">{{ error() }}</div> }
+      @if (searching()) { <div class="loading-block"><div class="spinner"></div></div> }
+      @else if (recipes().length > 0) {
+        <div class="results-head"><div><span class="eyebrow">Resultado</span><h2>Mejores coincidencias</h2></div><span class="muted">{{ recipes().length }} receta(s)</span></div>
+        <div class="recipe-grid">@for (recipe of recipes(); track recipe.id) { <app-recipe-card [recipe]="recipe" [editable]="canEdit(recipe.usuarioId)"></app-recipe-card> }</div>
+      } @else {
+        <div class="empty-recommend"><div>🥕</div><h2>Selecciona tus ingredientes</h2><p>Al presionar “Ver recomendaciones”, aquí aparecerán las recetas que puedes preparar con lo que tienes.</p></div>
+      }
+    </div>
+  </div>
+</section>

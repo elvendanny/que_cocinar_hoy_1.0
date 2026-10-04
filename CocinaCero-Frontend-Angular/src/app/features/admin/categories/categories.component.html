@@ -1,0 +1,30 @@
+<section class="page container">
+  <div class="catalog-head"><div><span class="eyebrow">Panel ADMIN</span><h1 class="page-title">Categorías</h1><p class="page-subtitle">Administra las categorías que aparecen en los formularios y filtros del recetario.</p></div><span class="catalog-count">{{ categories().length }} categorías</span></div>
+
+  <div class="catalog-layout">
+    <aside class="panel catalog-form">
+      <span class="eyebrow">{{ editingId ? 'Edición' : 'Nuevo registro' }}</span>
+      <h2>{{ editingId ? 'Editar categoría' : 'Crear categoría' }}</h2>
+      @if (error()) { <div class="notice notice-error">{{ error() }}</div> }
+      @if (success()) { <div class="notice notice-success">{{ success() }}</div> }
+      <form class="form-grid" (ngSubmit)="save()">
+        <div class="field"><label for="cat-name">Nombre</label><input id="cat-name" class="input" name="nombre" [(ngModel)]="nombre" maxlength="80" required placeholder="Ej. Desayunos"></div>
+        <div class="field"><label for="cat-desc">Descripción</label><textarea id="cat-desc" class="textarea" name="descripcion" [(ngModel)]="descripcion" maxlength="255" placeholder="Descripción opcional"></textarea><small>{{ descripcion.length }}/255</small></div>
+        <button class="btn btn-primary btn-block" type="submit" [disabled]="saving()">{{ saving() ? 'Guardando…' : editingId ? 'Guardar cambios' : 'Crear categoría' }}</button>
+        @if (editingId) { <button class="btn btn-ghost btn-block" type="button" (click)="cancel()">Cancelar edición</button> }
+      </form>
+    </aside>
+
+    <div>
+      @if (loading()) { <div class="loading-block"><div class="spinner"></div></div> }
+      @else if (categories().length === 0) { <div class="empty-state"><strong>No hay categorías.</strong><span>Crea la primera desde el formulario.</span></div> }
+      @else {
+        <div class="catalog-grid">
+          @for (item of categories(); track item.id) {
+            <article class="catalog-card card"><div class="catalog-id">#{{ item.id }}</div><div><h3>{{ item.nombre }}</h3><p>{{ item.descripcion || 'Sin descripción.' }}</p></div><div class="actions"><button class="btn btn-soft btn-small" type="button" (click)="edit(item)">Editar</button><button class="btn btn-danger btn-small" type="button" (click)="remove(item)">Eliminar</button></div></article>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,4 @@
+Coloca aquí una COPIA de tu token.json y credentials.json de Gmail.
+Ejecuta CONFIGURAR.cmd desde la carpeta principal.
+No incluyas el contenido de esta carpeta en entregas ni repositorios.
+El programa utiliza token.json; credentials.json se conserva para renovar la autorización si fuera necesario.

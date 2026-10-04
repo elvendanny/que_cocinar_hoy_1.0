@@ -1,0 +1,33 @@
+<section class="page-narrow">
+  <div class="verify-card card">
+    <div class="verify-icon">✉</div>
+    <span class="eyebrow">Paso 2 de 3</span>
+    <h1>Verifica tu correo</h1>
+    <p>Escribe el código de seis dígitos que recibiste. El código caduca a los 10 minutos.</p>
+
+    @if (error()) { <div class="notice notice-error">{{ error() }}</div> }
+    @if (success()) { <div class="notice notice-success">{{ success() }}</div> }
+
+    <form class="form-grid" [formGroup]="form" (ngSubmit)="verify()">
+      <div class="field">
+        <label for="verify-email">Correo</label>
+        <input id="verify-email" class="input" type="email" formControlName="email" autocomplete="email">
+        @if (form.controls.email.touched && form.controls.email.invalid) { <span class="field-error">Ingresa el correo con el que te registraste.</span> }
+      </div>
+      <div class="field">
+        <label for="codigo">Código</label>
+        <input id="codigo" class="input code-input" inputmode="numeric" maxlength="6" formControlName="codigo" autocomplete="one-time-code" placeholder="000000">
+        @if (form.controls.codigo.touched && form.controls.codigo.invalid) { <span class="field-error">El código debe tener exactamente 6 números.</span> }
+      </div>
+      <button class="btn btn-primary btn-block" type="submit" [disabled]="loading()">{{ loading() ? 'Verificando…' : 'Verificar correo' }}</button>
+    </form>
+
+    <div class="resend-row">
+      <button class="btn btn-ghost btn-small" type="button" (click)="resend()" [disabled]="resending() || seconds() > 0">
+        @if (seconds() > 0) { Reenviar en {{ seconds() }} s } @else { {{ resending() ? 'Enviando…' : 'Reenviar código' }} }
+      </button>
+    </div>
+
+    <div class="approval-note"><b>Paso 3:</b> cuando el correo esté verificado, la cuenta queda PENDIENTE hasta que ADMIN la apruebe. Después podrás <a routerLink="/login">iniciar sesión</a>.</div>
+  </div>
+</section>

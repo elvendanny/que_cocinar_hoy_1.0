@@ -1,0 +1,23 @@
+COCINA CERO - BACKEND LISTO PARA CONECTAR ANGULAR
+
+1. Detén Auth y Cocina anteriores con Ctrl+C.
+2. Descomprime este ZIP en una carpeta nueva. Conserva el proyecto anterior.
+3. Ejecuta IMPORTAR_DEBER3.cmd. Escribe la ruta de la carpeta anterior que ya funciona.
+   Ejemplo: C:\Users\LENOVO\Documents\CocinaCero-Deber3
+4. Con MariaDB encendido, ejecuta COMPILAR_Y_PROBAR.cmd. Espera BUILD SUCCESS.
+5. Ejecuta INICIAR_AUTH.cmd y después INICIAR_COCINA.cmd. Deja ambas ventanas abiertas.
+6. Prueba en Postman: GET http://localhost:8081/health y GET http://localhost:8082/health.
+7. Importa postman/CocinaCero-Backend-Angular.postman_collection.json.
+   Selecciona Sin entorno. En Variables de la colección escribe adminEmail y adminPassword actuales.
+8. Ejecuta la carpeta 00A - Comprobar backend Angular en orden. En el paso 09 elige
+   ejemplos/imagen-prueba.png en Body > form-data > archivo.
+
+IMPORTANTE: reutiliza las mismas DOS bases del deber 3. No arranques ambas versiones a la vez.
+La actualización añade columnas y seis recetas de ejemplo una sola vez, sin reemplazar tus datos.
+No cambies contraseñas ni vuelvas a autorizar Gmail si tu autorización sigue funcionando.
+El frontend Angular se entregará después; este paquete contiene el backend y la propuesta funcional.
+
+Guía completa: LEEME_PRIMERO.md.
+Propuesta de pantallas: docs/PROPUESTA_FUNCIONAL_ANGULAR.md.
+Contrato de conexión: docs/CONTRATO_ANGULAR.md.
+Para compartir el código sin credenciales usa EMPACAR_ENTREGA.cmd.

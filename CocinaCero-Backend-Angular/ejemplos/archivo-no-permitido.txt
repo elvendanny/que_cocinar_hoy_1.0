@@ -1,0 +1,1 @@
+Este archivo TXT debe ser rechazado por la carga de archivos con HTTP 400.

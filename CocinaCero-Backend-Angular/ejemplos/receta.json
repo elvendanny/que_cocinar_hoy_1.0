@@ -1,0 +1,17 @@
+{
+  "nombre": "Receta práctica D3",
+  "descripcion": "Receta para demostrar el CRUD",
+  "instrucciones": "Lavar el tomate, cortarlo, cocinarlo y servir caliente.",
+  "tiempoPreparacion": 15,
+  "porciones": 2,
+  "dificultad": "FACIL",
+  "categoriaId": 1,
+  "ingredientes": [
+    {
+      "ingredienteId": 1,
+      "cantidad": 2,
+      "unidadMedida": "UNIDADES",
+      "opcional": false
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Ilustraciones originales del proyecto, generadas a partir de los SVG incluidos. No representan fotografías de platos reales. Se distribuyen con el código para demostración sin conexión a servicios de imágenes. El usuario puede subir sus propias fotografías PNG/JPEG.

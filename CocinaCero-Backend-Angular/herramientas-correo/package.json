@@ -1,0 +1,19 @@
+{
+  "name": "herramientas-correo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "autorizar": "node autorizar-gmail.js",
+    "probar": "node probar-correo.js"
+  },
+  "dependencies": {
+    "googleapis": "^171.0.0",
+    "@google-cloud/local-auth": "^3.0.0"
+  },
+  "overrides": {
+    "gaxios@^6.0.0": {
+      "uuid": "^11.1.1"
+    }
+  }
+}

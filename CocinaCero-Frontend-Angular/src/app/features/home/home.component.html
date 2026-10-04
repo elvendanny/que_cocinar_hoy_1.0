@@ -1,0 +1,59 @@
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow">Recetario web integrado</span>
+      <h1>Cocina mejor con lo que ya tienes.</h1>
+      <p>Cocina Cero conecta Angular con dos servicios Spring Boot para gestionar usuarios, recetas, ingredientes, fotografías y recomendaciones desde una sola interfaz.</p>
+      <div class="hero-actions">
+        @if (session.isLoggedIn()) {
+          <a class="btn btn-primary" routerLink="/recetas">Explorar recetas</a>
+          <a class="btn btn-ghost" routerLink="/recetas/nueva">Crear una receta</a>
+        } @else {
+          <a class="btn btn-primary" routerLink="/registro">Crear mi cuenta</a>
+          <a class="btn btn-ghost" routerLink="/login">Ya tengo cuenta</a>
+        }
+      </div>
+      <div class="health-row" aria-label="Estado de los servicios">
+        <span><i [class.ok]="authOnline() === true" [class.bad]="authOnline() === false"></i> Auth 8081 · {{ authOnline() === null ? 'comprobando' : authOnline() ? 'conectado' : 'sin conexión' }}</span>
+        <span><i [class.ok]="cocinaOnline() === true" [class.bad]="cocinaOnline() === false"></i> Cocina 8082 · {{ cocinaOnline() === null ? 'comprobando' : cocinaOnline() ? 'conectado' : 'sin conexión' }}</span>
+      </div>
+    </div>
+
+    <div class="hero-board" aria-hidden="true">
+      <div class="plate plate-main"><span>🥗</span><b>Ensalada fresca</b><small>12 min · Fácil</small></div>
+      <div class="mini-card one"><span>🍝</span><b>Pasta</b></div>
+      <div class="mini-card two"><span>🥣</span><b>Sopa</b></div>
+      <div class="ingredient-pill p1">Tomate</div>
+      <div class="ingredient-pill p2">Avena</div>
+      <div class="ingredient-pill p3">Huevos</div>
+    </div>
+  </div>
+</section>
+
+<section class="container feature-section">
+  <div class="section-head">
+    <span class="eyebrow">Todo el flujo del sistema</span>
+    <h2>Una web para demostrar el backend completo</h2>
+  </div>
+  <div class="feature-grid">
+    <article class="feature-card"><span>01</span><h3>Cuenta y seguridad</h3><p>Registro, código por correo, aprobación del administrador, JWT, perfil y cierre de sesión.</p></article>
+    <article class="feature-card"><span>02</span><h3>Recetas reales</h3><p>Consulta, creación, edición, eliminación, ingredientes, dificultad, porciones, fotos y PDF.</p></article>
+    <article class="feature-card"><span>03</span><h3>Qué cocinar</h3><p>Selecciona ingredientes disponibles y recibe recetas ordenadas por porcentaje de coincidencia.</p></article>
+    <article class="feature-card"><span>04</span><h3>Administración</h3><p>Aprobación de usuarios, roles, historial, categorías e ingredientes desde pantallas protegidas.</p></article>
+  </div>
+</section>
+
+<section class="container flow-section">
+  <div class="flow-copy">
+    <span class="eyebrow">Recorrido para la exposición</span>
+    <h2>Del registro a una receta con fotografía.</h2>
+    <p>El flujo de demostración está preparado para que se vea claramente qué hace Angular y qué valida Java.</p>
+  </div>
+  <ol class="flow-list">
+    <li><b>1</b><span>Registrar y verificar un correo real.</span></li>
+    <li><b>2</b><span>Aprobar la cuenta desde ADMIN.</span></li>
+    <li><b>3</b><span>Iniciar sesión y explorar el recetario.</span></li>
+    <li><b>4</b><span>Crear receta, subir foto y elegir portada.</span></li>
+    <li><b>5</b><span>Editar, recomendar y comprobar permisos.</span></li>
+  </ol>
+</section>

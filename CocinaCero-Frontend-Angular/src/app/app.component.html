@@ -1,0 +1,45 @@
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" routerLink="/" aria-label="Cocina Cero, inicio">
+      <span class="brand-mark">C</span>
+      <span><strong>Cocina Cero</strong><small>Recetas que sí puedes hacer</small></span>
+    </a>
+
+    <nav class="main-nav" aria-label="Navegación principal">
+      @if (session.isLoggedIn()) {
+        <a routerLink="/recetas" routerLinkActive="active">Recetas</a>
+        <a routerLink="/mis-recetas" routerLinkActive="active">Mis recetas</a>
+        <a routerLink="/que-cocinar" routerLinkActive="active">Qué cocinar</a>
+        @if (session.isAdmin()) {
+          <a routerLink="/admin/usuarios" routerLinkActive="active">Usuarios</a>
+          <a routerLink="/admin/categorias" routerLinkActive="active">Categorías</a>
+          <a routerLink="/admin/ingredientes" routerLinkActive="active">Ingredientes</a>
+        }
+      }
+    </nav>
+
+    <div class="header-actions">
+      @if (session.isLoggedIn()) {
+        <a class="user-chip" routerLink="/perfil" title="Abrir perfil">
+          <span>{{ session.user()?.nombre?.charAt(0)?.toUpperCase() }}</span>
+          <b>{{ session.user()?.nombre }}</b>
+          @if (session.isAdmin()) { <em>ADMIN</em> }
+        </a>
+      } @else {
+        <a class="btn btn-ghost btn-small" routerLink="/login">Ingresar</a>
+        <a class="btn btn-primary btn-small" routerLink="/registro">Crear cuenta</a>
+      }
+    </div>
+  </div>
+</header>
+
+<main class="site-main">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div><strong>Cocina Cero</strong><span>Angular + Spring Boot + MariaDB</span></div>
+    <p>Proyecto académico de integración Front-end / API REST.</p>
+  </div>
+</footer>

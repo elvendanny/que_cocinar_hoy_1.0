@@ -1,0 +1,6 @@
+**/target/
+configuracion-local/*
+!configuracion-local/LEEME.txt
+datos/
+*.log
+.env

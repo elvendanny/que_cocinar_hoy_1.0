@@ -1,0 +1,56 @@
+<section class="page container">
+  <div class="admin-head"><div><span class="eyebrow">Panel ADMIN</span><h1 class="page-title">Usuarios</h1><p class="page-subtitle">Busca cuentas, comprueba la verificación del correo, aprueba o bloquea accesos y administra roles.</p></div><div class="summary-card"><b>{{ total() }}</b><span>usuarios</span></div></div>
+
+  <form class="toolbar panel" (ngSubmit)="search()">
+    <div class="field search"><label>Nombre o correo</label><input class="input" name="texto" [(ngModel)]="texto" placeholder="Buscar usuario"></div>
+    <div class="field"><label>Estado</label><select class="select" name="estado" [(ngModel)]="estado"><option value="">Todos</option><option value="PENDIENTE">Pendiente</option><option value="APROBADA">Aprobada</option><option value="RECHAZADA">Rechazada</option><option value="BLOQUEADA">Bloqueada</option></select></div>
+    <div class="field"><label>Correo</label><select class="select" name="email" [(ngModel)]="emailFilter"><option value="">Todos</option><option value="true">Verificado</option><option value="false">Sin verificar</option></select></div>
+    <button class="btn btn-primary" type="submit">Filtrar</button><button class="btn btn-ghost" type="button" (click)="clear()">Limpiar</button>
+  </form>
+
+  @if (error()) { <div class="notice notice-error admin-notice">{{ error() }}</div> }
+  @if (success()) { <div class="notice notice-success admin-notice">{{ success() }}</div> }
+
+  <div class="admin-layout" [class.with-manager]="selectedUser() !== null">
+    <div>
+      @if (loading()) { <div class="loading-block"><div class="spinner"></div></div> }
+      @else if (users().length === 0) { <div class="empty-state"><strong>No hay usuarios con esos filtros.</strong><span>Cambia los criterios de búsqueda.</span></div> }
+      @else {
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Usuario</th><th>Rol</th><th>Estado</th><th>Correo</th><th>Registro</th><th></th></tr></thead>
+            <tbody>
+              @for (user of users(); track user.id) {
+                <tr [class.current-user]="user.id === session.user()?.id">
+                  <td><div class="user-cell"><span>{{ user.nombre.charAt(0).toUpperCase() }}</span><div><b>{{ user.nombre }}</b><small>#{{ user.id }} · {{ user.email }}</small></div></div></td>
+                  <td><span class="badge">{{ user.rol }}</span></td>
+                  <td><span [class]="statusClass(user.estado)">{{ user.estado }}</span></td>
+                  <td>{{ user.emailVerificado ? '✓ Verificado' : '○ Pendiente' }}</td>
+                  <td>{{ user.creadoEn | date:'shortDate' }}</td>
+                  <td><button class="btn btn-ghost btn-small" type="button" (click)="manage(user)">{{ user.id === session.user()?.id ? 'Ver' : 'Gestionar' }}</button></td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        @if (pages() > 1) { <div class="pagination"><button class="btn btn-ghost btn-small" (click)="goPage(page - 1)" [disabled]="page <= 1">←</button><span>{{ page }} / {{ pages() }}</span><button class="btn btn-ghost btn-small" (click)="goPage(page + 1)" [disabled]="page >= pages()">→</button></div> }
+      }
+    </div>
+
+    @if (selectedUser(); as selected) {
+      <aside class="manager panel">
+        <div class="manager-head"><div><span class="eyebrow">Cuenta #{{ selected.id }}</span><h2>{{ selected.nombre }}</h2></div><button type="button" class="close-btn" (click)="closeManage()">×</button></div>
+        <p class="email">{{ selected.email }}</p>
+        <div class="manager-badges"><span [class]="statusClass(selected.estado)">{{ selected.estado }}</span><span class="badge">{{ selected.rol }}</span><span class="badge">{{ selected.emailVerificado ? 'Correo verificado' : 'Correo NO verificado' }}</span></div>
+
+        @if (!canManage(selected)) { <div class="notice notice-info">Esta es tu propia cuenta ADMIN. El backend impide cambiar tu estado o rol.</div> }
+        @else {
+          <div class="manager-section"><h3>Estado de la cuenta</h3><div class="field"><label>Nuevo estado</label><select class="select" [(ngModel)]="decision"><option value="PENDIENTE">PENDIENTE</option><option value="APROBADA">APROBADA</option><option value="RECHAZADA">RECHAZADA</option><option value="BLOQUEADA">BLOQUEADA</option></select></div><div class="field"><label>Motivo de revisión</label><textarea class="textarea" [(ngModel)]="motivo" maxlength="500" placeholder="Ej. Correo verificado y revisión aprobada"></textarea></div><button class="btn btn-primary btn-block" type="button" (click)="updateStatus()" [disabled]="actionBusy()">Aplicar estado</button></div>
+          <div class="manager-section"><h3>Rol</h3><div class="role-row"><select class="select" [(ngModel)]="role"><option value="USER">USER</option><option value="ADMIN">ADMIN</option></select><button class="btn btn-ghost" type="button" (click)="updateRole()" [disabled]="actionBusy()">Cambiar rol</button></div><small>Al cambiar rol se revocan los JWT previos de ese usuario.</small></div>
+        }
+
+        <div class="manager-section history"><h3>Historial de revisiones</h3>@if (revisionsLoading()) { <div class="muted">Cargando…</div> } @else if (revisions().length === 0) { <div class="muted">Sin revisiones registradas.</div> } @else { @for (revision of revisions(); track revision.id) { <div class="history-item"><div><b>{{ revision.estadoAnterior }} → {{ revision.estadoNuevo }}</b><span>{{ revision.fecha | date:'short' }}</span></div><p>{{ revision.motivo }}</p><small>ADMIN #{{ revision.administradorId }}</small></div> } }</div>
+      </aside>
+    }
+  </div>
+</section>

@@ -1,0 +1,92 @@
+<section class="page container">
+  <div class="form-head">
+    <div>
+      <span class="eyebrow">{{ editing ? 'Editar contenido' : 'Nueva receta' }}</span>
+      <h1 class="page-title">{{ editing ? 'Actualiza tu receta.' : 'Comparte una receta.' }}</h1>
+      <p class="page-subtitle">Completa la información, agrega al menos un ingrediente y adjunta fotos o PDF si lo necesitas.</p>
+    </div>
+    <a class="btn btn-ghost" [routerLink]="editing && id ? ['/recetas', id] : ['/recetas']">Cancelar</a>
+  </div>
+
+  @if (error()) { <div class="notice notice-error top-notice">{{ error() }}</div> }
+
+  @if (loading()) {
+    <div class="loading-block"><div class="spinner"></div></div>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="editor-grid">
+        <div class="editor-main">
+          <section class="panel form-section">
+            <div class="section-number">01</div>
+            <div class="section-content">
+              <h2>Información principal</h2>
+              <div class="form-grid">
+                <div class="field"><label for="nombre">Nombre de la receta</label><input id="nombre" class="input" formControlName="nombre" placeholder="Ej. Tortilla de verduras">@if (form.get('nombre')?.touched && form.get('nombre')?.invalid) { <span class="field-error">Nombre obligatorio, entre 2 y 120 caracteres.</span> }</div>
+                <div class="field"><label for="descripcion">Descripción</label><textarea id="descripcion" class="textarea" formControlName="descripcion" maxlength="500" placeholder="Describe brevemente qué hace especial esta receta."></textarea>@if (form.get('descripcion')?.touched && form.get('descripcion')?.invalid) { <span class="field-error">La descripción debe tener entre 5 y 500 caracteres.</span> }</div>
+                <div class="form-grid two">
+                  <div class="field"><label for="categoriaId">Categoría</label><select id="categoriaId" class="select" formControlName="categoriaId"><option [ngValue]="null">Selecciona…</option>@for (category of categories(); track category.id) { <option [ngValue]="category.id">{{ category.nombre }}</option> }</select></div>
+                  <div class="field"><label for="dificultad">Dificultad</label><select id="dificultad" class="select" formControlName="dificultad">@for (difficulty of options()?.dificultades ?? []; track difficulty) { <option [value]="difficulty">{{ difficulty }}</option> }</select></div>
+                </div>
+                <div class="form-grid two">
+                  <div class="field"><label for="tiempo">Tiempo (minutos)</label><input id="tiempo" class="input" type="number" min="1" max="1440" formControlName="tiempoPreparacion"></div>
+                  <div class="field"><label for="porciones">Porciones</label><input id="porciones" class="input" type="number" min="1" max="100" formControlName="porciones"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel form-section">
+            <div class="section-number">02</div>
+            <div class="section-content">
+              <div class="section-title-row"><div><h2>Ingredientes</h2><p>Selecciona el ingrediente, cantidad y unidad.</p></div><button class="btn btn-soft btn-small" type="button" (click)="addIngredient()" [disabled]="ingredientsArray.length >= 50">＋ Agregar</button></div>
+              <div class="ingredient-editor" formArrayName="ingredientes">
+                @for (group of ingredientsArray.controls; track $index; let i = $index) {
+                  <div class="ingredient-edit-row" [formGroupName]="i">
+                    <span class="row-number">{{ i + 1 }}</span>
+                    <div class="field ingredient-select"><label>Ingrediente</label><select class="select" formControlName="ingredienteId"><option [ngValue]="null">Selecciona…</option>@for (ingredient of ingredients(); track ingredient.id) { <option [ngValue]="ingredient.id">{{ ingredient.nombre }} · {{ ingredient.tipo }}</option> }</select></div>
+                    <div class="field amount"><label>Cantidad</label><input class="input" type="number" step="0.01" min="0.01" formControlName="cantidad"></div>
+                    <div class="field unit"><label>Unidad</label><select class="select" formControlName="unidadMedida">@for (unit of options()?.unidadesMedida ?? []; track unit) { <option [value]="unit">{{ unit.replaceAll('_', ' ') }}</option> }</select></div>
+                    <label class="optional"><input type="checkbox" formControlName="opcional"> Opcional</label>
+                    <button class="remove-row" type="button" (click)="removeIngredient(i)" [disabled]="ingredientsArray.length <= 1" title="Quitar ingrediente">×</button>
+                  </div>
+                }
+              </div>
+            </div>
+          </section>
+
+          <section class="panel form-section">
+            <div class="section-number">03</div>
+            <div class="section-content">
+              <h2>Preparación</h2>
+              <div class="field"><label for="instrucciones">Instrucciones</label><textarea id="instrucciones" class="textarea instructions-input" formControlName="instrucciones" placeholder="1. Prepara los ingredientes.&#10;2. Cocina a fuego medio.&#10;3. Sirve y disfruta."></textarea><small>Puedes escribir cada paso en una línea diferente.</small>@if (form.get('instrucciones')?.touched && form.get('instrucciones')?.invalid) { <span class="field-error">Escribe al menos 10 caracteres de preparación.</span> }</div>
+            </div>
+          </section>
+        </div>
+
+        <aside class="editor-side">
+          <section class="panel upload-panel">
+            <span class="eyebrow">Fotos y archivos</span>
+            <h2>Adjuntos</h2>
+            <p>PNG, JPEG o PDF. Máximo 5 MB por archivo y 10 por receta.</p>
+            <label class="upload-box"><input type="file" multiple accept="image/png,image/jpeg,application/pdf" (change)="chooseFiles($event)"><span>＋</span><b>Seleccionar archivos</b><small>Puedes elegir varios a la vez</small></label>
+
+            @if (selectedFiles().length > 0) {
+              <div class="pending-files"><h3>Por subir</h3>@for (file of selectedFiles(); track $index; let i = $index) { <div class="file-row"><div><b>{{ file.name }}</b><small>{{ (file.size / 1024 / 1024).toFixed(2) }} MB</small></div><button type="button" (click)="removeSelectedFile(i)">×</button></div> }</div>
+            }
+
+            @if (editing && existingFiles().length > 0) {
+              <div class="pending-files"><h3>Ya guardados</h3>@for (file of existingFiles(); track file.id) { <div class="file-row existing"><div><b>{{ file.nombreOriginal }}</b><small>{{ file.tipo }} @if (isCurrentCover(file.id)) { · PORTADA }</small></div><div class="mini-actions">@if (isImage(file)) { <button type="button" (click)="setCover(file.id)" [disabled]="fileBusy() !== null">★</button> }<button type="button" (click)="deleteExistingFile(file)" [disabled]="fileBusy() !== null">×</button></div></div> }</div>
+              <button class="btn btn-ghost btn-small btn-block" type="button" (click)="setCover(null)" [disabled]="fileBusy() !== null">Portada automática</button>
+            }
+          </section>
+
+          <section class="panel save-panel">
+            <h3>{{ editing ? 'Guardar cambios' : 'Publicar receta' }}</h3>
+            <p>El backend volverá a validar todos los campos y tus permisos.</p>
+            <button class="btn btn-primary btn-block" type="submit" [disabled]="saving()">{{ saving() ? 'Guardando…' : editing ? 'Guardar cambios' : 'Crear receta' }}</button>
+          </section>
+        </aside>
+      </div>
+    </form>
+  }
+</section>

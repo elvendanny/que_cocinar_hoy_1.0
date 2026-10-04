@@ -1,0 +1,257 @@
+[
+  {
+    "nombre": "Ensalada fresca de garbanzos",
+    "categoria": "Ensaladas",
+    "imagen": "ensalada.png",
+    "tiempoPreparacion": 15,
+    "porciones": 2,
+    "descripcion": "Una ensalada fresca que aprovecha garbanzos cocidos y verduras disponibles.",
+    "instrucciones": "1. Escurrir y enjuagar los garbanzos cocidos.\n2. Lavar el tomate y el pepino; cortarlos en cubos.\n3. Mezclar los vegetales con los garbanzos.\n4. Exprimir el limón, mezclar su jugo con el aceite y añadirlo.\n5. Servir al momento o mantener refrigerado hasta consumir.",
+    "ingredientes": [
+      {
+        "nombre": "Garbanzos cocidos",
+        "tipo": "PROTEINA",
+        "cantidad": 300,
+        "unidadMedida": "GRAMOS",
+        "opcional": false
+      },
+      {
+        "nombre": "Tomate",
+        "tipo": "VEGETAL",
+        "cantidad": 2,
+        "unidadMedida": "UNIDADES",
+        "opcional": false
+      },
+      {
+        "nombre": "Pepino",
+        "tipo": "VEGETAL",
+        "cantidad": 1,
+        "unidadMedida": "UNIDADES",
+        "opcional": false
+      },
+      {
+        "nombre": "Limón",
+        "tipo": "FRUTA",
+        "cantidad": 1,
+        "unidadMedida": "UNIDADES",
+        "opcional": false
+      },
+      {
+        "nombre": "Aceite de oliva",
+        "tipo": "CONDIMENTO",
+        "cantidad": 1,
+        "unidadMedida": "CUCHARADAS",
+        "opcional": false
+      }
+    ]
+  },
+  {
+    "nombre": "Tortilla de espinaca y queso",
+    "categoria": "Comidas rápidas",
+    "imagen": "tortilla.png",
+    "tiempoPreparacion": 15,
+    "porciones": 2,
+    "descripcion": "Huevos con espinaca y queso para una comida sencilla y rápida.",
+    "instrucciones": "1. Lavar la espinaca y cortarla.\n2. Calentar el aceite en una sartén y saltear la espinaca durante dos minutos.\n3. Batir los huevos y añadir el queso rallado.\n4. Verter la mezcla sobre la espinaca y cocinar a fuego bajo.\n5. Dar la vuelta con ayuda de un plato y cocinar hasta que el huevo esté completamente cuajado.",
+    "ingredientes": [
+      {
+        "nombre": "Huevo",
+        "tipo": "PROTEINA",
+        "cantidad": 4,
+        "unidadMedida": "UNIDADES",
+        "opcional": false
+      },
+      {
+        "nombre": "Espinaca",
+        "tipo": "VEGETAL",
+        "cantidad": 100,
+        "unidadMedida": "GRAMOS",
+        "opcional": false
+      },
+      {
+        "nombre": "Queso",
+        "tipo": "LACTEO",
+        "cantidad": 60,
+        "unidadMedida": "GRAMOS",
+        "opcional": false
+      },
+      {
+        "nombre": "Aceite de oliva",
+        "tipo": "CONDIMENTO",
+        "cantidad": 1,
+        "unidadMedida": "CUCHARADAS",
+        "opcional": false
+      }
+    ]
+  },
+  {
+    "nombre": "Pasta con tomate y albahaca",
+    "categoria": "Pastas",
+    "imagen": "pasta.png",
+    "tiempoPreparacion": 25,
+    "porciones": 2,
+    "descripcion": "Pasta con una salsa casera de tomate y hojas frescas de albahaca.",
+    "instrucciones": "1. Lavar y picar los tomates. Pelar y picar el ajo.\n2. Calentar el aceite y sofreír el ajo durante un minuto sin quemarlo.\n3. Añadir el tomate y cocinar a fuego medio durante quince minutos.\n4. Cocinar la pasta en agua según el tiempo indicado en el envase y escurrir.\n5. Mezclar con la salsa y añadir la albahaca antes de servir.",
+    "ingredientes": [
+      {
+        "nombre": "Pasta",
+        "tipo": "CEREAL",
+        "cantidad": 200,
+        "unidadMedida": "GRAMOS",
+        "opcional": false
+      },
+      {
+        "nombre": "Tomate",
+        "tipo": "VEGETAL",
+        "cantidad": 4,
+        "unidadMedida": "UNIDADES",
+        "opcional": false
+      },
+      {
+        "nombre": "Ajo",
+        "tipo": "CONDIMENTO",
+        "cantidad": 1,
+        "unidadMedida": "UNIDADES",
+        "opcional": false
+      },
+      {
+        "nombre": "Aceite de oliva",
+        "tipo": "CONDIMENTO",
+        "cantidad": 1,
+        "unidadMedida": "CUCHARADAS",
+        "opcional": false
+      },
+      {
+        "nombre": "Albahaca",
+        "tipo": "CONDIMENTO",
+        "cantidad": 5,
+        "unidadMedida": "GRAMOS",
+        "opcional": true
+      }
+    ]
+  },
+  {
+    "nombre": "Avena con banano y canela",
+    "categoria": "Desayunos",
+    "imagen": "avena.png",
+    "tiempoPreparacion": 10,
+    "porciones": 2,
+    "descripcion": "Un desayuno caliente de avena, leche y fruta madura.",
+    "instrucciones": "1. Calentar la leche en una olla pequeña a fuego medio.\n2. Añadir la avena y cocinar entre cinco y siete minutos, removiendo.\n3. Pelar el banano y cortar en rodajas.\n4. Repartir la avena en dos tazones.\n5. Añadir las rodajas de banano y espolvorear canela al gusto.",
+    "ingredientes": [
+      {
+        "nombre": "Avena",
+        "tipo": "CEREAL",
+        "cantidad": 100,
+        "unidadMedida": "GRAMOS",
+        "opcional": false
+      },
+      {
+        "nombre": "Leche",
+        "tipo": "LACTEO",
+        "cantidad": 400,
+        "unidadMedida": "MILILITROS",
+        "opcional": false
+      },
+      {
+        "nombre": "Banano",
+        "tipo": "FRUTA",
+        "cantidad": 2,
+        "unidadMedida": "UNIDADES",
+        "opcional": false
+      },
+      {
+        "nombre": "Canela",
+        "tipo": "CONDIMENTO",
+        "cantidad": 0.5,
+        "unidadMedida": "CUCHARADITAS",
+        "opcional": true
+      }
+    ]
+  },
+  {
+    "nombre": "Sopa de lentejas y zanahoria",
+    "categoria": "Sopas",
+    "imagen": "sopa.png",
+    "tiempoPreparacion": 40,
+    "porciones": 4,
+    "descripcion": "Una sopa de legumbres y verduras para preparar varias porciones.",
+    "instrucciones": "1. Enjuagar las lentejas secas. Lavar y cortar las zanahorias; picar la cebolla.\n2. Calentar el aceite y sofreír la cebolla durante tres minutos.\n3. Añadir la zanahoria, las lentejas y el agua.\n4. Llevar a ebullición y cocinar a fuego bajo durante treinta minutos o hasta que las lentejas estén tiernas; añadir más agua si hace falta.\n5. Servir caliente. Refrigerar las porciones sobrantes cuando se hayan enfriado.",
+    "ingredientes": [
+      {
+        "nombre": "Lentejas",
+        "tipo": "PROTEINA",
+        "cantidad": 250,
+        "unidadMedida": "GRAMOS",
+        "opcional": false
+      },
+      {
+        "nombre": "Zanahoria",
+        "tipo": "VEGETAL",
+        "cantidad": 2,
+        "unidadMedida": "UNIDADES",
+        "opcional": false
+      },
+      {
+        "nombre": "Cebolla",
+        "tipo": "VEGETAL",
+        "cantidad": 1,
+        "unidadMedida": "UNIDADES",
+        "opcional": false
+      },
+      {
+        "nombre": "Agua",
+        "tipo": "OTRO",
+        "cantidad": 1000,
+        "unidadMedida": "MILILITROS",
+        "opcional": false
+      },
+      {
+        "nombre": "Aceite de oliva",
+        "tipo": "CONDIMENTO",
+        "cantidad": 1,
+        "unidadMedida": "CUCHARADAS",
+        "opcional": false
+      }
+    ]
+  },
+  {
+    "nombre": "Tostadas de aguacate y tomate",
+    "categoria": "Desayunos",
+    "imagen": "tostadas.png",
+    "tiempoPreparacion": 10,
+    "porciones": 2,
+    "descripcion": "Pan tostado con aguacate, tomate y unas gotas de limón.",
+    "instrucciones": "1. Lavar el tomate y cortarlo en rodajas.\n2. Abrir el aguacate, retirar la semilla y aplastar la pulpa.\n3. Mezclar el aguacate con el jugo de medio limón.\n4. Tostar el pan y repartir encima el aguacate.\n5. Añadir las rodajas de tomate y servir inmediatamente.",
+    "ingredientes": [
+      {
+        "nombre": "Pan integral",
+        "tipo": "CEREAL",
+        "cantidad": 4,
+        "unidadMedida": "UNIDADES",
+        "opcional": false
+      },
+      {
+        "nombre": "Aguacate",
+        "tipo": "FRUTA",
+        "cantidad": 1,
+        "unidadMedida": "UNIDADES",
+        "opcional": false
+      },
+      {
+        "nombre": "Tomate",
+        "tipo": "VEGETAL",
+        "cantidad": 1,
+        "unidadMedida": "UNIDADES",
+        "opcional": false
+      },
+      {
+        "nombre": "Limón",
+        "tipo": "FRUTA",
+        "cantidad": 0.5,
+        "unidadMedida": "UNIDADES",
+        "opcional": false
+      }
+    ]
+  }
+]
